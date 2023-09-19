@@ -72,35 +72,24 @@ const transactions = [
 ];
 
 function calculateTotalSpentByCategory(transactions) {
-  const simpleTransactions = [];
-  const output = {};
-  transactions.map((transaction) => {
-    simpleTransactions.push({ [transaction.category]: transaction.price });
-  });
-
-  simpleTransactions.forEach((obj) => {
-    const category = Object.keys(obj)[0];
-    const price = obj[category];
-    // console.log(category, price);
-
-    if (!output[category]) {
-      output[category] = price;
+  const output = transactions.reduce((result, transaction) => {
+    const { category, price } = transaction;
+    if (!result[category]) {
+      result[category] = price;
     } else {
-      output[category] += price;
+      result[category] += price;
     }
+    return result;
+  }, {});
+
+  const outputArray = Object.keys(output).map((key) => {
+    return { [key]: output[key] };
   });
 
-  const result = Object.keys(output).map((category) => {
-    return {
-      [category]: output[category],
-    };
-  });
-  console.log(result);
-
-  return result;
+  return outputArray;
 }
 
 module.exports = calculateTotalSpentByCategory;
 
-calculateTotalSpentByCategory(transactions);
-// console.log(transactions);
+const expenditure = calculateTotalSpentByCategory(transactions);
+console.log(expenditure);
