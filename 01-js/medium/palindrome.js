@@ -7,7 +7,10 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const forward = str.toLowerCase();
+  const reverse = str.toLowerCase().split("").reverse().join("");
+  return { [str]: forward === reverse };
 }
-
 module.exports = isPalindrome;
+const checkPalindrome = isPalindrome("Namanager");
+console.log(checkPalindrome);
